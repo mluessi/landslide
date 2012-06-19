@@ -56,7 +56,13 @@ def encode_image_from_url(url, source_path):
     real_path = url if os.path.isabs(url) else os.path.join(source_path, url)
 
     if not os.path.exists(real_path):
-        print '%s was not found, skipping' % url
+        # there is a weird bug that puts the global theme dir in front, try
+        # to remove it
+        parts = real_path.split('.')
+        real_path = os.path.abspath('.' + parts[-2] + '.' + parts[-1])
+
+    if not os.path.exists(real_path):
+        print '%s was not found, skipping (%s)' % (url, real_path)
         return False
 
     mime_type, encoding = mimetypes.guess_type(real_path)

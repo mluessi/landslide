@@ -165,6 +165,8 @@ def main():
             run(input_file, options)
         except Exception, e:
             sys.stderr.write("Error: %s\n" % e)
+            import traceback
+            traceback.print_exc(file=sys.stdout)
             sys.exit(1)
 
 
